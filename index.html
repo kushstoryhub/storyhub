@@ -3,132 +3,312 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StoryHub</title>
 
-<style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
+<title>KushComics</title>
 
-body{
-background:#111;
-color:white;
-}
+<link rel="stylesheet" href="style.css">
 
-header{
-background:#ff9800;
-padding:18px;
-text-align:center;
-font-size:30px;
-font-weight:bold;
-}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-.search{
-padding:20px;
-text-align:center;
-}
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-.search input{
-width:90%;
-max-width:450px;
-padding:12px;
-border:none;
-border-radius:10px;
-font-size:16px;
-}
+<script defer src="script.js"></script>
 
-.container{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.card{
-background:#1f1f1f;
-padding:20px;
-border-radius:15px;
-box-shadow:0 0 10px rgba(255,255,255,.1);
-transition:.3s;
-}
-
-.card:hover{
-transform:scale(1.03);
-}
-
-.card h2{
-color:#ff9800;
-margin-bottom:10px;
-}
-
-.card p{
-color:#ddd;
-margin-bottom:15px;
-}
-
-button{
-width:100%;
-padding:12px;
-background:#ff9800;
-border:none;
-border-radius:8px;
-font-size:17px;
-font-weight:bold;
-cursor:pointer;
-}
-
-footer{
-text-align:center;
-padding:20px;
-color:#aaa;
-}
-</style>
 </head>
 
 <body>
 
 <header>
-📚 StoryHub
-</header>
 
-<div class="search">
-<input type="text" placeholder="Search Stories...">
+<nav class="navbar">
+
+<div class="logo">
+
+🦸 KushComics
+
+</div>
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Latest</a>
+<a href="#">Trending</a>
+<a href="#">Categories</a>
+<a href="#">Login</a>
 </div>
 
-<div class="container">
+</nav>
 
-<div class="card">
-<h2>Horror Story</h2>
-<p>Read a scary horror story. Unlock the full story for only ₹1.</p>
-<button>Pay ₹1 & Read</button>
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Welcome to KushComics</h1>
+
+<p>
+Read Amazing Comics, Superhero Stories,
+Horror Comics, Action Comics and Premium
+Exclusive Episodes.
+</p>
+
+<div class="hero-buttons">
+
+<button class="btn-primary">
+Start Reading
+</button>
+
+<button class="btn-secondary">
+Explore Comics
+</button>
+
 </div>
 
-<div class="card">
-<h2>Love Story</h2>
-<p>A beautiful romantic story waiting for you.</p>
-<button>Pay ₹1 & Read</button>
 </div>
 
-<div class="card">
-<h2>Mystery Story</h2>
-<p>Can you solve the mystery? Read now.</p>
-<button>Pay ₹1 & Read</button>
+</section>
+<section class="categories">
+
+<h2>Popular Categories</h2>
+
+<div class="category-grid">
+
+<div class="category-card">
+🦸
+<h3>Superhero</h3>
 </div>
 
-<div class="card">
-<h2>Motivation</h2>
-<p>Powerful motivational stories to inspire you.</p>
+<div class="category-card">
+👻
+<h3>Horror</h3>
+</div>
+
+<div class="category-card">
+😂
+<h3>Comedy</h3>
+</div>
+
+<div class="category-card">
+💕
+<h3>Romance</h3>
+</div>
+
+<div class="category-card">
+🚀
+<h3>Sci-Fi</h3>
+</div>
+
+<div class="category-card">
+⚔️
+<h3>Action</h3>
+</div>
+
+</div>
+
+</section>
+
+<section class="trending">
+
+<h2>🔥 Trending Comics</h2>
+
+<div class="comic-grid"><div class="comic-card">
+<img src="https://picsum.photos/300/420?random=1" alt="Comic Cover">
+<div class="comic-info">
+<h3>Shadow Hero</h3>
+<p>Action • Adventure</p>
+<button>Read Now</button>
+</div>
+</div>
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=2" alt="Comic Cover">
+<div class="comic-info">
+<h3>Dark City</h3>
+<p>Horror • Mystery</p>
+<button>Read Now</button>
+</div>
+</div>
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=3" alt="Comic Cover">
+<div class="comic-info">
+<h3>Love Beyond Time</h3>
+<p>Romance</p>
+<button>Read Now</button>
+</div>
+</div>
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=4" alt="Comic Cover">
+<div class="</div>
+
+</section>
+
+<section class="premium">
+
+<h2>💎 Premium Comics</h2>
+
+<div class="premium-box">
+
+<h3>Unlock Exclusive Comics</h3>
+
+<p>
+Read premium episodes with HD quality,
+exclusive stories and early access.
+</p>
+
+<button class="premium-btn">
+Unlock for ₹1
+</button>
+
+</div>
+
+</section>
+
+<section class="about">
+
+<h2>About KushComics</h2>
+
+<p>
+
+KushComics is a modern comic reading platform
+where you can enjoy superhero, horror,
+romance, action and many more amazing comics.
+
+</p>
+
+</section><section class="latest">
+
+<h2>🆕 Latest Comics</h2>
+
+<div class="comic-grid">
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=5" alt="Comic Cover">
+<div class="comic-info">
+<h3>Spider Night</h3>
+<p>New Episode Released</p>
 <button>Read Free</button>
 </div>
+</div>
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=6" alt="Comic Cover">
+<div class="comic-info">
+<h3>The Last Warrior</h3>
+<p>Action • Fantasy</p>
+<button>Read Now</button>
+</div>
+</div>
+
+<div class="comic-card">
+<img src="https://picsum.photos/300/420?random=7" alt="Comic Cover">
+<div class="comic-info">
+<h3>Ghost House</h3>
+<p>Horror</p>
+<button>Read Now</button>
+</div>
+</div>
 
 </div>
 
+</section><section class="features">
+
+<h2>✨ Why Choose KushComics?</h2>
+
+<div class="feature-grid">
+
+<div class="feature-card">
+📖
+<h3>100+ Comics</h3>
+<p>Read exciting comics from different genres.</p>
+</div>
+
+<div class="feature-card">
+⚡
+<h3>Fast Reading</h3>
+<p>Enjoy a smooth and fast reading experience.</p>
+</div>
+
+<div class="feature-card">
+🔒
+<h3>Secure Access</h3>
+<p>Your premium comics stay protected.</p>
+</div>
+
+<div class="feature-card">
+📱
+<h3>Mobile Friendly</h3>
+<p>Works perfectly on Android, iPhone and PC.</p>
+</div>
+
+</div>
+
+</section><section class="newsletter">
+
+<h2>📬 Stay Updated</h2>
+
+<p>Get notified whenever a new comic episode is released.</p>
+
+<div class="newsletter-box">
+<input type="email" placeholder="Enter your email">
+<button>Subscribe</button>
+</div>
+
+</section>
+
 <footer>
-© 2026 StoryHub | Made with ❤️
+
+<div class="footer-logo">
+🦸 KushComics
+</div>
+
+<p>
+© 2026 KushComics. All Rights Reserved.
+</p>
+
+<div class="footer-links">
+<a href="#">Privacy Policy</a>
+<a href="#">Terms</a>
+<a href="#">Contact</a>
+</div><section class="download-app">
+
+<h2>📱 Read Anywhere</h2>
+
+<p>
+Enjoy your favorite comics on any device.
+Fast, smooth and mobile friendly experience.
+</p>
+
+<div class="download-buttons">
+<button class="android-btn">📲 Android</button>
+<button class="web-btn">🌐 Web Version</button>
+</div>
+
+</section>
+
+<section class="social">
+
+<h2>🌟 Follow KushComics</h2>
+
+<div class="social-links">
+
+<a href="#">📸 Instagram</a>
+
+<a href="#">▶ YouTube</a>
+
+<a href="#">💬 Telegram</a>
+
+<a href="#">📘 Facebook</a>
+
+</div>
+
+</section>t<footer class="footer">
+
+<p>Made with ❤️ by KushComics</p>
+
+<p>Read • Enjoy • Share</p>
+
 </footer>
 
 </body>
+
 </html>
