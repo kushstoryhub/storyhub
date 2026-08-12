@@ -1,314 +1,537 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>KushComics</title>
+    <title>KushComics</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-<script defer src="script.js"></script>
-
+    <script defer src="script.js"></script>
 </head>
 
 <body>
 
-<header>
+    <!-- ================= HEADER ================= -->
 
-<nav class="navbar">
+    <header>
 
-<div class="logo">
+        <nav class="navbar">
 
-🦸 KushComics
+            <div class="logo">
+                🦸 KushComics
+            </div>
 
-</div>
-<div class="nav-links">
-<a href="#">Home</a>
-<a href="#">Latest</a>
-<a href="#">Trending</a>
-<a href="#">Categories</a>
-<a href="#">Login</a>
-</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#latest">Latest</a>
+                <a href="#trending">Trending</a>
+                <a href="#categories">Categories</a>
+                <a href="#login">Login</a>
+            </div>
 
-</nav>
+        </nav>
 
-<section class="hero">
+    </header>
 
-<div class="hero-content">
 
-<h1>Welcome to KushComics</h1>
+    <!-- ================= HERO ================= -->
 
-<p>
-Read Amazing Comics, Superhero Stories,
-Horror Comics, Action Comics and Premium
-Exclusive Episodes.
-</p>
+    <section class="hero" id="home">
 
-<div class="hero-buttons">
+        <div class="hero-content">
 
-<button class="btn-primary">
-Start Reading
-</button>
+            <h1>Welcome to KushComics</h1>
 
-<button class="btn-secondary">
-Explore Comics
-</button>
+            <p>
+                Read Amazing Comics, Superhero Stories,
+                Horror Comics, Action Comics and Premium
+                Exclusive Episodes.
+            </p>
 
-</div>
+            <div class="hero-buttons">
 
-</div>
+                <button class="btn-primary" type="button">
+                    Start Reading
+                </button>
 
-</section>
-<section class="categories">
+                <button class="btn-secondary" type="button">
+                    Explore Comics
+                </button>
 
-<h2>Popular Categories</h2>
+            </div>
 
-<div class="category-grid">
+        </div>
 
-<div class="category-card">
-🦸
-<h3>Superhero</h3>
-</div>
+    </section>
 
-<div class="category-card">
-👻
-<h3>Horror</h3>
-</div>
 
-<div class="category-card">
-😂
-<h3>Comedy</h3>
-</div>
+    <!-- ================= CATEGORIES ================= -->
 
-<div class="category-card">
-💕
-<h3>Romance</h3>
-</div>
+    <section class="categories" id="categories">
 
-<div class="category-card">
-🚀
-<h3>Sci-Fi</h3>
-</div>
+        <h2>Popular Categories</h2>
 
-<div class="category-card">
-⚔️
-<h3>Action</h3>
-</div>
+        <div class="category-grid">
 
-</div>
+            <div class="category-card">
+                🦸
+                <h3>Superhero</h3>
+            </div>
 
-</section>
+            <div class="category-card">
+                👻
+                <h3>Horror</h3>
+            </div>
 
-<section class="trending">
+            <div class="category-card">
+                😂
+                <h3>Comedy</h3>
+            </div>
 
-<h2>🔥 Trending Comics</h2>
+            <div class="category-card">
+                💕
+                <h3>Romance</h3>
+            </div>
 
-<div class="comic-grid"><div class="comic-card">
-<img src="https://picsum.photos/300/420?random=1" alt="Comic Cover">
-<div class="comic-info">
-<h3>Shadow Hero</h3>
-<p>Action • Adventure</p>
-<button>Read Now</button>
-</div>
-</div>
+            <div class="category-card">
+                🚀
+                <h3>Sci-Fi</h3>
+            </div>
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=2" alt="Comic Cover">
-<div class="comic-info">
-<h3>Dark City</h3>
-<p>Horror • Mystery</p>
-<button>Read Now</button>
-</div>
-</div>
+            <div class="category-card">
+                ⚔️
+                <h3>Action</h3>
+            </div>
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=3" alt="Comic Cover">
-<div class="comic-info">
-<h3>Love Beyond Time</h3>
-<p>Romance</p>
-<button>Read Now</button>
-</div>
-</div>
+        </div>
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=4" alt="Comic Cover">
-<div class="</div>
+    </section>
 
-</section>
 
-<section class="premium">
+    <!-- ================= TRENDING ================= -->
 
-<h2>💎 Premium Comics</h2>
+    <section class="trending" id="trending">
 
-<div class="premium-box">
+        <h2>🔥 Trending Comics</h2>
 
-<h3>Unlock Exclusive Comics</h3>
+        <div class="comic-grid">
 
-<p>
-Read premium episodes with HD quality,
-exclusive stories and early access.
-</p>
+            <div class="comic-card">
 
-<button class="premium-btn">
-Unlock for ₹1
-</button>
+                <img
+                    src="https://picsum.photos/300/420?random=1"
+                    alt="Shadow Hero Comic Cover"
+                >
 
-</div>
+                <div class="comic-info">
 
-</section>
+                    <h3>Shadow Hero</h3>
 
-<section class="about">
+                    <p>Action • Adventure</p>
 
-<h2>About KushComics</h2>
+                    <button type="button">
+                        Read Now
+                    </button>
 
-<p>
+                </div>
 
-KushComics is a modern comic reading platform
-where you can enjoy superhero, horror,
-romance, action and many more amazing comics.
+            </div>
 
-</p>
 
-</section><section class="latest">
+            <div class="comic-card">
 
-<h2>🆕 Latest Comics</h2>
+                <img
+                    src="https://picsum.photos/300/420?random=2"
+                    alt="Dark City Comic Cover"
+                >
 
-<div class="comic-grid">
+                <div class="comic-info">
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=5" alt="Comic Cover">
-<div class="comic-info">
-<h3>Spider Night</h3>
-<p>New Episode Released</p>
-<button>Read Free</button>
-</div>
-</div>
+                    <h3>Dark City</h3>
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=6" alt="Comic Cover">
-<div class="comic-info">
-<h3>The Last Warrior</h3>
-<p>Action • Fantasy</p>
-<button>Read Now</button>
-</div>
-</div>
+                    <p>Horror • Mystery</p>
 
-<div class="comic-card">
-<img src="https://picsum.photos/300/420?random=7" alt="Comic Cover">
-<div class="comic-info">
-<h3>Ghost House</h3>
-<p>Horror</p>
-<button>Read Now</button>
-</div>
-</div>
+                    <button type="button">
+                        Read Now
+                    </button>
 
-</div>
+                </div>
 
-</section><section class="features">
+            </div>
 
-<h2>✨ Why Choose KushComics?</h2>
 
-<div class="feature-grid">
+            <div class="comic-card">
 
-<div class="feature-card">
-📖
-<h3>100+ Comics</h3>
-<p>Read exciting comics from different genres.</p>
-</div>
+                <img
+                    src="https://picsum.photos/300/420?random=3"
+                    alt="Love Beyond Time Comic Cover"
+                >
 
-<div class="feature-card">
-⚡
-<h3>Fast Reading</h3>
-<p>Enjoy a smooth and fast reading experience.</p>
-</div>
+                <div class="comic-info">
 
-<div class="feature-card">
-🔒
-<h3>Secure Access</h3>
-<p>Your premium comics stay protected.</p>
-</div>
+                    <h3>Love Beyond Time</h3>
 
-<div class="feature-card">
-📱
-<h3>Mobile Friendly</h3>
-<p>Works perfectly on Android, iPhone and PC.</p>
-</div>
+                    <p>Romance</p>
 
-</div>
+                    <button type="button">
+                        Read Now
+                    </button>
 
-</section><section class="newsletter">
+                </div>
 
-<h2>📬 Stay Updated</h2>
+            </div>
 
-<p>Get notified whenever a new comic episode is released.</p>
 
-<div class="newsletter-box">
-<input type="email" placeholder="Enter your email">
-<button>Subscribe</button>
-</div>
+            <div class="comic-card">
 
-</section>
+                <img
+                    src="https://picsum.photos/300/420?random=4"
+                    alt="The Last Warrior Comic Cover"
+                >
 
-<footer>
+                <div class="comic-info">
 
-<div class="footer-logo">
-🦸 KushComics
-</div>
+                    <h3>The Last Warrior</h3>
 
-<p>
-© 2026 KushComics. All Rights Reserved.
-</p>
+                    <p>Action • Fantasy</p>
 
-<div class="footer-links">
-<a href="#">Privacy Policy</a>
-<a href="#">Terms</a>
-<a href="#">Contact</a>
-</div><section class="download-app">
+                    <button type="button">
+                        Read Now
+                    </button>
 
-<h2>📱 Read Anywhere</h2>
+                </div>
 
-<p>
-Enjoy your favorite comics on any device.
-Fast, smooth and mobile friendly experience.
-</p>
+            </div>
 
-<div class="download-buttons">
-<button class="android-btn">📲 Android</button>
-<button class="web-btn">🌐 Web Version</button>
-</div>
+        </div>
 
-</section>
+    </section>
 
-<section class="social">
 
-<h2>🌟 Follow KushComics</h2>
+    <!-- ================= PREMIUM ================= -->
 
-<div class="social-links">
+    <section class="premium">
 
-<a href="#">📸 Instagram</a>
+        <h2>💎 Premium Comics</h2>
 
-<a href="#">▶ YouTube</a>
+        <div class="premium-box">
 
-<a href="#">💬 Telegram</a>
+            <h3>Unlock Exclusive Comics</h3>
 
-<a href="#">📘 Facebook</a>
+            <p>
+                Read premium episodes with HD quality,
+                exclusive stories and early access.
+            </p>
 
-</div>
+            <button class="premium-btn" type="button">
+                Unlock for ₹1
+            </button>
 
-</section>t<footer class="footer">
+        </div>
 
-<p>Made with ❤️ by KushComics</p>
+    </section>
 
-<p>Read • Enjoy • Share</p>
 
-</footer>
+    <!-- ================= ABOUT ================= -->
+
+    <section class="about">
+
+        <h2>About KushComics</h2>
+
+        <p>
+            KushComics is a modern comic reading platform
+            where you can enjoy superhero, horror, romance,
+            action and many more amazing comics.
+        </p>
+
+    </section>
+
+
+    <!-- ================= LATEST ================= -->
+
+    <section class="latest" id="latest">
+
+        <h2>🆕 Latest Comics</h2>
+
+        <div class="comic-grid">
+
+            <div class="comic-card">
+
+                <img
+                    src="https://picsum.photos/300/420?random=5"
+                    alt="Spider Night Comic Cover"
+                >
+
+                <div class="comic-info">
+
+                    <h3>Spider Night</h3>
+
+                    <p>New Episode Released</p>
+
+                    <button type="button">
+                        Read Free
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="comic-card">
+
+                <img
+                    src="https://picsum.photos/300/420?random=6"
+                    alt="The Last Warrior Comic Cover"
+                >
+
+                <div class="comic-info">
+
+                    <h3>The Last Warrior</h3>
+
+                    <p>Action • Fantasy</p>
+
+                    <button type="button">
+                        Read Now
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="comic-card">
+
+                <img
+                    src="https://picsum.photos/300/420?random=7"
+                    alt="Ghost House Comic Cover"
+                >
+
+                <div class="comic-info">
+
+                    <h3>Ghost House</h3>
+
+                    <p>Horror</p>
+
+                    <button type="button">
+                        Read Now
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <section class="features">
+
+        <h2>✨ Why Choose KushComics?</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+
+                📖
+
+                <h3>100+ Comics</h3>
+
+                <p>
+                    Read exciting comics from different genres.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                ⚡
+
+                <h3>Fast Reading</h3>
+
+                <p>
+                    Enjoy a smooth and fast reading experience.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                🔒
+
+                <h3>Secure Access</h3>
+
+                <p>
+                    Your premium comics stay protected.
+                </p>
+
+            </div>
+
+
+            <div class="feature-card">
+
+                📱
+
+                <h3>Mobile Friendly</h3>
+
+                <p>
+                    Works perfectly on Android, iPhone and PC.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= NEWSLETTER ================= -->
+
+    <section class="newsletter">
+
+        <h2>📬 Stay Updated</h2>
+
+        <p>
+            Get notified whenever a new comic episode is released.
+        </p>
+
+        <div class="newsletter-box">
+
+            <input
+                type="email"
+                placeholder="Enter your email"
+                aria-label="Email address"
+            >
+
+            <button type="button">
+                Subscribe
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= LOGIN PLACEHOLDER ================= -->
+
+    <section class="about" id="login">
+
+        <h2>👤 KushComics Account</h2>
+
+        <p>
+            Google Login will be connected here with Firebase
+            in the next step.
+        </p>
+
+    </section>
+
+
+    <!-- ================= DOWNLOAD APP ================= -->
+
+    <section class="download-app">
+
+        <h2>📱 Read Anywhere</h2>
+
+        <p>
+            Enjoy your favorite comics on any device.
+            Fast, smooth and mobile friendly experience.
+        </p>
+
+        <div class="download-buttons">
+
+            <button class="android-btn" type="button">
+                📲 Android
+            </button>
+
+            <button class="web-btn" type="button">
+                🌐 Web Version
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SOCIAL ================= -->
+
+    <section class="social">
+
+        <h2>🌟 Follow KushComics</h2>
+
+        <div class="social-links">
+
+            <a href="#" aria-label="Instagram">
+                📸 Instagram
+            </a>
+
+            <a href="#" aria-label="YouTube">
+                ▶ YouTube
+            </a>
+
+            <a href="#" aria-label="Telegram">
+                💬 Telegram
+            </a>
+
+            <a href="#" aria-label="Facebook">
+                📘 Facebook
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="footer-logo">
+            🦸 KushComics
+        </div>
+
+        <p>
+            © 2026 KushComics. All Rights Reserved.
+        </p>
+
+        <div class="footer-links">
+
+            <a href="#">
+                Privacy Policy
+            </a>
+
+            <a href="#">
+                Terms
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+        </div>
+
+        <p>
+            Made with ❤️ by KushComics
+        </p>
+
+        <p>
+            Read • Enjoy • Share
+        </p>
+
+    </footer>
 
 </body>
-
 </html>
