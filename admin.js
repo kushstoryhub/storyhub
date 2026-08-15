@@ -83,4 +83,11 @@ if (publishBtn) {
 
 // Login button will be added in the next step.
 
+const googleLoginBtn = document.getElementById("googleLoginBtn");
+
+if (googleLoginBtn) {
+    googleLoginBtn.addEventListener("click", () => {
+        adminLogin();
+    });
+}
 window.adminLogin = adminLogin;
