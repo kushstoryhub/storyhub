@@ -1,38 +1,86 @@
-// KushComics Admin Panel
+import { auth, googleProvider } from "./firebase.js";
+import {
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 const publishBtn = document.getElementById("publishBtn");
 
-publishBtn.addEventListener("click", () => {
-    alert("🚀 Comic Publish feature is coming soon!");
-});// Comic Form Fields
+// ================= ADMIN LOGIN =================
 
-const titleInput = document.querySelector('input[type="text"]');
-const categorySelect = document.querySelector("select");
-const descriptionInput = document.querySelector("textarea");
+const ADMIN_EMAIL = "kushkumar921417@gmail.com";
 
-publishBtn.addEventListener("click", () => {
+async function adminLogin() {
+    try {
+        const result = await signInWithPopup(auth, googleProvider);
+        const user = result.user;
 
-    const title = titleInput.value.trim();
+        if (user.email !== ADMIN_EMAIL) {
+            alert("❌ You are not authorized as Admin.");
+            await signOut(auth);
+            return;
+        }
 
-    if (title === "") {
-        alert("❌ Please enter a comic title.");
-        return;
+        alert("✅ Admin Login Successful!");
+    } catch (error) {
+        console.error(error);
+        alert("❌ Login failed. Please try again.");
+    }
+}
+
+// ================= AUTH CHECK =================
+
+onAuthStateChanged(auth, (user) => {
+
+    if (user) {
+
+        if (user.email !== ADMIN_EMAIL) {
+            alert("❌ Admin access required.");
+            signOut(auth);
+            return;
+        }
+
+        console.log("🛡 Admin:", user.email);
+
+    } else {
+
+        console.log("Admin is not logged in.");
+
     }
 
-    alert("✅ Comic '" + title + "' is ready to publish!");
+});
 
-});// Future Firebase Upload
+// ================= PUBLISH BUTTON =================
 
-function uploadComic() {
+if (publishBtn) {
 
-    console.log("Preparing Firebase Upload...");
+    publishBtn.addEventListener("click", () => {
 
-    alert("📚 Firebase upload will be connected in the next step.");
+        const titleInput =
+            document.querySelector('input[type="text"]');
+
+        const title = titleInput
+            ? titleInput.value.trim()
+            : "";
+
+        if (title === "") {
+            alert("❌ Please enter a comic title.");
+            return;
+        }
+
+        alert(
+            "📚 Comic '" +
+            title +
+            "' is ready for Firebase upload."
+        );
+
+    });
 
 }
 
-publishBtn.addEventListener("dblclick", () => {
+// ================= GOOGLE LOGIN =================
 
-    uploadComic();
+// Login button will be added in the next step.
 
-});
+window.adminLogin = adminLogin;
