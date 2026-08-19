@@ -3,71 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>KushComics Admin Panel</title>
 
 <link rel="stylesheet" href="admin.css">
-
 </head>
+
 <body>
 
 <header class="topbar">
 
-<h1>🛡 KushComics Admin Panel</h1>
+<h1>🛡️ KushComics Admin Panel</h1>
 
 <p>Upload and Manage Comics</p>
+
 <div class="admin-login-box">
-    <button type="button" id="googleLoginBtn">
-        🔐 Login with Google
-    </button>
+
+<button id="googleLoginBtn">
+🔐 Login with Google
+</button>
+
 </div>
 
-</header><main class="admin-container">
+</header>
+
+
+<main class="admin-container">
 
 <div class="card">
 
 <h2>📚 Add New Comic</h2>
 
+
 <label>Comic Title</label>
-<input type="text" placeholder="Enter comic title">
+
+<input
+type="text"
+id="comicTitle"
+placeholder="Enter comic title"
+>
+
 
 <label>Category</label>
-<select>
+
+<select id="categorySelect">
+
 <option>Action</option>
 <option>Adventure</option>
 <option>Fantasy</option>
 <option>Horror</option>
 <option>Romance</option>
+
 </select>
 
-<label>Cover Image</label>
-<input type="file" accept="image/*">
 
-<label>Comic PDF / ZIP</label>
-<input type="file" accept=".pdf,.zip">
+<label>Cover Image URL</label>
 
-</div><div class="card">
+<input
+type="url"
+id="coverUrl"
+placeholder="Paste cover image URL"
+>
 
-<h2>💎 Comic Settings</h2>
+
+<label>Comic PDF / ZIP URL</label>
+
+<input
+type="url"
+id="comicUrl"
+placeholder="Paste comic PDF or ZIP URL"
+>
+
+</div>
+
+
+<div class="card">
+
+<h2>⚙️ Comic Settings</h2>
+
 
 <label>Comic Type</label>
 
-<select>
+<select id="comicType">
 
-<option>Free</option>
+<option value="Free">Free</option>
 
-<option>Premium</option>
+<option value="Premium">Premium</option>
 
 </select>
 
+
 <label>Description</label>
 
-<textarea placeholder="Write comic description..." rows="6"></textarea>
+<textarea
+id="descriptionInput"
+placeholder="Write comic description..."
+rows="6">
+</textarea>
 
-<button id="publishBtn">🚀 Publish Comic</button>
+
+<button id="publishBtn">
+🚀 Publish Comic
+</button>
 
 </div>
 
 </main>
+
 
 <script type="module" src="admin.js"></script>
 
