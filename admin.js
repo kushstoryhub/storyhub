@@ -111,15 +111,27 @@ if (publishBtn) {
         }
 
 
-        // Get form fields
+        // ===============================
+        // GET FORM FIELDS
+        // ===============================
+
         const titleInput =
-            document.querySelector('input[type="text"]');
+            document.getElementById("comicTitle");
 
         const categorySelect =
-            document.querySelector("select");
+            document.getElementById("categorySelect");
+
+        const coverUrlInput =
+            document.getElementById("coverUrl");
+
+        const comicUrlInput =
+            document.getElementById("comicUrl");
+
+        const comicTypeSelect =
+            document.getElementById("comicType");
 
         const descriptionInput =
-            document.querySelector("textarea");
+            document.getElementById("descriptionInput");
 
 
         const title =
@@ -128,13 +140,25 @@ if (publishBtn) {
         const category =
             categorySelect ? categorySelect.value : "";
 
+        const coverUrl =
+            coverUrlInput ? coverUrlInput.value.trim() : "";
+
+        const comicUrl =
+            comicUrlInput ? comicUrlInput.value.trim() : "";
+
+        const comicType =
+            comicTypeSelect ? comicTypeSelect.value : "Free";
+
         const description =
             descriptionInput
                 ? descriptionInput.value.trim()
                 : "";
 
 
-        // Check title
+        // ===============================
+        // VALIDATION
+        // ===============================
+
         if (title === "") {
 
             alert("❌ Please enter a comic title.");
@@ -142,19 +166,24 @@ if (publishBtn) {
             return;
         }
 
+        if (coverUrl === "") {
 
-        // Get comic type
-        const selects =
-            document.querySelectorAll("select");
+            alert("❌ Please enter Cover Image URL.");
 
-        let comicType = "Free";
-
-        if (selects.length > 1) {
-
-            comicType = selects[1].value;
-
+            return;
         }
 
+        if (comicUrl === "") {
+
+            alert("❌ Please enter Comic PDF / ZIP URL.");
+
+            return;
+        }
+
+
+        // ===============================
+        // PUBLISH TO FIRESTORE
+        // ===============================
 
         try {
 
@@ -163,7 +192,6 @@ if (publishBtn) {
             publishBtn.innerText = "⏳ Publishing...";
 
 
-            // Save comic information in Firestore
             const docRef = await addDoc(
                 collection(db, "comics"),
                 {
@@ -172,9 +200,13 @@ if (publishBtn) {
 
                     category: category,
 
-                    description: description,
+                    coverUrl: coverUrl,
+
+                    comicUrl: comicUrl,
 
                     type: comicType,
+
+                    description: description,
 
                     published: true,
 
@@ -199,9 +231,20 @@ if (publishBtn) {
             );
 
 
-            // Clear form
+            // ===============================
+            // CLEAR FORM
+            // ===============================
+
             if (titleInput) {
                 titleInput.value = "";
+            }
+
+            if (coverUrlInput) {
+                coverUrlInput.value = "";
+            }
+
+            if (comicUrlInput) {
+                comicUrlInput.value = "";
             }
 
             if (descriptionInput) {
