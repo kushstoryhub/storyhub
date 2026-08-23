@@ -50,15 +50,17 @@ async function adminLogin() {
 
         alert("✅ Admin Login Successful!");
 
-} catch (error) {
+    } catch (error) {
 
-    console.error("Login Error:", error);
+        console.error("Login Error:", error);
 
-    alert(
-        "❌ Login failed!\n\n" +
-        "Error Code: " + error.code + "\n\n" +
-        "Error Message: " + error.message
-    );
+        alert(
+            "❌ Login failed!\n\n" +
+            "Error Code: " + error.code + "\n\n" +
+            "Error Message: " + error.message
+        );
+
+    }
 
 }
 
