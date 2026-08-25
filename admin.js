@@ -1,12 +1,13 @@
 // ===============================
 // KushComics Admin Panel
-// Firestore Publish System
+// Firebase + Google Redirect Login
 // ===============================
 
 import { auth, googleProvider, db } from "./firebase.js";
 
 import {
-    signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -17,10 +18,14 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+
 const ADMIN_EMAIL = "kushkumar921417@gmail.com";
 
-const googleLoginBtn = document.getElementById("googleLoginBtn");
-const publishBtn = document.getElementById("publishBtn");
+const googleLoginBtn =
+    document.getElementById("googleLoginBtn");
+
+const publishBtn =
+    document.getElementById("publishBtn");
 
 let currentUser = null;
 
@@ -33,22 +38,10 @@ async function adminLogin() {
 
     try {
 
-        const result = await signInWithPopup(auth, googleProvider);
-
-        const user = result.user;
-
-        if (user.email !== ADMIN_EMAIL) {
-
-            alert("❌ You are not authorized as Admin.");
-
-            await signOut(auth);
-
-            return;
-        }
-
-        currentUser = user;
-
-        alert("✅ Admin Login Successful!");
+        await signInWithRedirect(
+            auth,
+            googleProvider
+        );
 
     } catch (error) {
 
@@ -71,9 +64,67 @@ async function adminLogin() {
 
 if (googleLoginBtn) {
 
-    googleLoginBtn.addEventListener("click", adminLogin);
+    googleLoginBtn.addEventListener(
+        "click",
+        adminLogin
+    );
 
 }
+
+
+// ===============================
+// CHECK REDIRECT LOGIN RESULT
+// ===============================
+
+getRedirectResult(auth)
+    .then((result) => {
+
+        if (result && result.user) {
+
+            const user = result.user;
+
+            console.log(
+                "Google Login User:",
+                user.email
+            );
+
+            if (user.email !== ADMIN_EMAIL) {
+
+                alert(
+                    "❌ यह Google account Admin नहीं है.\n\n" +
+                    "Admin Email:\n" +
+                    ADMIN_EMAIL
+                );
+
+                signOut(auth);
+
+                return;
+            }
+
+            currentUser = user;
+
+            alert(
+                "✅ Admin Login Successful!\n\n" +
+                user.email
+            );
+
+        }
+
+    })
+    .catch((error) => {
+
+        console.error(
+            "Redirect Login Error:",
+            error
+        );
+
+        alert(
+            "❌ Google Login Failed!\n\n" +
+            "Error Code: " + error.code + "\n\n" +
+            "Error Message: " + error.message
+        );
+
+    });
 
 
 // ===============================
@@ -86,13 +137,18 @@ onAuthStateChanged(auth, (user) => {
 
         currentUser = user;
 
-        console.log("🛡 Admin:", user.email);
+        console.log(
+            "🛡 Admin:",
+            user.email
+        );
 
     } else {
 
         currentUser = null;
 
-        console.log("Admin is not logged in.");
+        console.log(
+            "Admin is not logged in."
+        );
 
     }
 
@@ -100,184 +156,215 @@ onAuthStateChanged(auth, (user) => {
 
 
 // ===============================
-// PUBLISH FREE / PREMIUM COMIC
+// PUBLISH COMIC
 // ===============================
 
 if (publishBtn) {
 
-    publishBtn.addEventListener("click", async () => {
+    publishBtn.addEventListener(
+        "click",
+        async () => {
 
-        // Check login
-        if (!currentUser) {
+            // Check login
+            if (!currentUser) {
 
-            alert("🔐 पहले Google से Admin Login करें।");
+                alert(
+                    "🔐 पहले Google से Admin Login करें।"
+                );
 
-            return;
-        }
-
-
-        // ===============================
-        // GET FORM FIELDS
-        // ===============================
-
-        const titleInput =
-            document.getElementById("comicTitle");
-
-        const categorySelect =
-            document.getElementById("categorySelect");
-
-        const coverUrlInput =
-            document.getElementById("coverUrl");
-
-        const comicUrlInput =
-            document.getElementById("comicUrl");
-
-        const comicTypeSelect =
-            document.getElementById("comicType");
-
-        const descriptionInput =
-            document.getElementById("descriptionInput");
+                return;
+            }
 
 
-        const title =
-            titleInput ? titleInput.value.trim() : "";
+            // ===============================
+            // GET FORM FIELDS
+            // ===============================
 
-        const category =
-            categorySelect ? categorySelect.value : "";
+            const titleInput =
+                document.getElementById("comicTitle");
 
-        const coverUrl =
-            coverUrlInput ? coverUrlInput.value.trim() : "";
+            const categorySelect =
+                document.getElementById("categorySelect");
 
-        const comicUrl =
-            comicUrlInput ? comicUrlInput.value.trim() : "";
+            const coverUrlInput =
+                document.getElementById("coverUrl");
 
-        const comicType =
-            comicTypeSelect ? comicTypeSelect.value : "Free";
+            const comicUrlInput =
+                document.getElementById("comicUrl");
 
-        const description =
-            descriptionInput
-                ? descriptionInput.value.trim()
-                : "";
+            const comicTypeSelect =
+                document.getElementById("comicType");
 
-
-        // ===============================
-        // VALIDATION
-        // ===============================
-
-        if (title === "") {
-
-            alert("❌ Please enter a comic title.");
-
-            return;
-        }
-
-        if (coverUrl === "") {
-
-            alert("❌ Please enter Cover Image URL.");
-
-            return;
-        }
-
-        if (comicUrl === "") {
-
-            alert("❌ Please enter Comic PDF / ZIP URL.");
-
-            return;
-        }
+            const descriptionInput =
+                document.getElementById("descriptionInput");
 
 
-        // ===============================
-        // PUBLISH TO FIRESTORE
-        // ===============================
+            const title =
+                titleInput
+                    ? titleInput.value.trim()
+                    : "";
 
-        try {
+            const category =
+                categorySelect
+                    ? categorySelect.value
+                    : "";
 
-            publishBtn.disabled = true;
+            const coverUrl =
+                coverUrlInput
+                    ? coverUrlInput.value.trim()
+                    : "";
 
-            publishBtn.innerText = "⏳ Publishing...";
+            const comicUrl =
+                comicUrlInput
+                    ? comicUrlInput.value.trim()
+                    : "";
+
+            const comicType =
+                comicTypeSelect
+                    ? comicTypeSelect.value
+                    : "Free";
+
+            const description =
+                descriptionInput
+                    ? descriptionInput.value.trim()
+                    : "";
 
 
-            const docRef = await addDoc(
-                collection(db, "comics"),
-                {
+            // ===============================
+            // VALIDATION
+            // ===============================
 
-                    title: title,
+            if (title === "") {
 
-                    category: category,
+                alert(
+                    "❌ Please enter a comic title."
+                );
 
-                    coverUrl: coverUrl,
+                return;
+            }
 
-                    comicUrl: comicUrl,
+            if (coverUrl === "") {
 
-                    type: comicType,
+                alert(
+                    "❌ Please enter Cover Image URL."
+                );
 
-                    description: description,
+                return;
+            }
 
-                    published: true,
+            if (comicUrl === "") {
 
-                    createdAt: serverTimestamp(),
+                alert(
+                    "❌ Please enter Comic PDF / ZIP URL."
+                );
 
-                    createdBy: currentUser.email
+                return;
+            }
+
+
+            // ===============================
+            // SAVE TO FIRESTORE
+            // ===============================
+
+            try {
+
+                publishBtn.disabled = true;
+
+                publishBtn.innerText =
+                    "⏳ Publishing...";
+
+
+                const docRef =
+                    await addDoc(
+                        collection(db, "comics"),
+                        {
+
+                            title: title,
+
+                            category: category,
+
+                            coverUrl: coverUrl,
+
+                            comicUrl: comicUrl,
+
+                            type: comicType,
+
+                            description: description,
+
+                            published: true,
+
+                            createdAt:
+                                serverTimestamp(),
+
+                            createdBy:
+                                currentUser.email
+
+                        }
+                    );
+
+
+                console.log(
+                    "Comic published:",
+                    docRef.id
+                );
+
+
+                alert(
+                    "✅ Comic Published Successfully!\n\n" +
+                    "Title: " + title + "\n" +
+                    "Type: " + comicType
+                );
+
+
+                // Clear form
+
+                if (titleInput) {
+
+                    titleInput.value = "";
 
                 }
-            );
+
+                if (coverUrlInput) {
+
+                    coverUrlInput.value = "";
+
+                }
+
+                if (comicUrlInput) {
+
+                    comicUrlInput.value = "";
+
+                }
+
+                if (descriptionInput) {
+
+                    descriptionInput.value = "";
+
+                }
 
 
-            console.log(
-                "Comic published:",
-                docRef.id
-            );
+            } catch (error) {
 
+                console.error(
+                    "Firestore Error:",
+                    error
+                );
 
-            alert(
-                "✅ Comic Published Successfully!\n\n" +
-                "Title: " + title + "\n" +
-                "Type: " + comicType
-            );
+                alert(
+                    "❌ Comic publish नहीं हुआ।\n\n" +
+                    error.message
+                );
 
+            } finally {
 
-            // ===============================
-            // CLEAR FORM
-            // ===============================
+                publishBtn.disabled = false;
 
-            if (titleInput) {
-                titleInput.value = "";
+                publishBtn.innerText =
+                    "🚀 Publish Comic";
+
             }
-
-            if (coverUrlInput) {
-                coverUrlInput.value = "";
-            }
-
-            if (comicUrlInput) {
-                comicUrlInput.value = "";
-            }
-
-            if (descriptionInput) {
-                descriptionInput.value = "";
-            }
-
-
-        } catch (error) {
-
-            console.error(
-                "Firestore Error:",
-                error
-            );
-
-            alert(
-                "❌ Comic publish नहीं हुआ।\n\n" +
-                error.message
-            );
-
-        } finally {
-
-            publishBtn.disabled = false;
-
-            publishBtn.innerText =
-                "🚀 Publish Comic";
 
         }
-
-    });
+    );
 
 }
