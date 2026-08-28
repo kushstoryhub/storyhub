@@ -1,13 +1,13 @@
 // ===============================
 // KushComics Admin Panel
-// Firebase + Google Redirect Login
+// Firebase + Google Admin Login
+// Firestore Publish System
 // ===============================
 
 import { auth, googleProvider, db } from "./firebase.js";
 
 import {
-    signInWithRedirect,
-    getRedirectResult,
+    signInWithPopup,
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
@@ -19,7 +19,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+// ===============================
+// ADMIN EMAIL
+// ===============================
+
 const ADMIN_EMAIL = "kushkumar921417@gmail.com";
+
+
+// ===============================
+// BUTTONS
+// ===============================
 
 const googleLoginBtn =
     document.getElementById("googleLoginBtn");
@@ -27,6 +36,8 @@ const googleLoginBtn =
 const publishBtn =
     document.getElementById("publishBtn");
 
+
+// Current logged-in user
 let currentUser = null;
 
 
@@ -38,19 +49,61 @@ async function adminLogin() {
 
     try {
 
-        await signInWithRedirect(
-            auth,
-            googleProvider
+        const result =
+            await signInWithPopup(
+                auth,
+                googleProvider
+            );
+
+        const user = result.user;
+
+        console.log(
+            "Google Login:",
+            user.email
         );
+
+
+        // Check Admin Email
+        if (user.email !== ADMIN_EMAIL) {
+
+            alert(
+                "❌ You are not authorized as Admin.\n\n" +
+                "Admin Email:\n" +
+                ADMIN_EMAIL
+            );
+
+            await signOut(auth);
+
+            currentUser = null;
+
+            return;
+        }
+
+
+        // Admin Login Successful
+        currentUser = user;
+
+        alert(
+            "✅ Admin Login Successful!\n\n" +
+            user.email
+        );
+
 
     } catch (error) {
 
-        console.error("Login Error:", error);
+        console.error(
+            "Google Login Error:",
+            error
+        );
+
 
         alert(
             "❌ Login failed!\n\n" +
-            "Error Code: " + error.code + "\n\n" +
-            "Error Message: " + error.message
+            "Error Code:\n" +
+            error.code +
+            "\n\n" +
+            "Error Message:\n" +
+            error.message
         );
 
     }
@@ -73,86 +126,37 @@ if (googleLoginBtn) {
 
 
 // ===============================
-// CHECK REDIRECT LOGIN RESULT
+// AUTH STATE CHECK
 // ===============================
 
-getRedirectResult(auth)
-    .then((result) => {
+onAuthStateChanged(
+    auth,
+    (user) => {
 
-        if (result && result.user) {
-
-            const user = result.user;
-
-            console.log(
-                "Google Login User:",
-                user.email
-            );
-
-            if (user.email !== ADMIN_EMAIL) {
-
-                alert(
-                    "❌ यह Google account Admin नहीं है.\n\n" +
-                    "Admin Email:\n" +
-                    ADMIN_EMAIL
-                );
-
-                signOut(auth);
-
-                return;
-            }
+        if (
+            user &&
+            user.email === ADMIN_EMAIL
+        ) {
 
             currentUser = user;
 
-            alert(
-                "✅ Admin Login Successful!\n\n" +
+            console.log(
+                "🛡 Admin Logged In:",
                 user.email
+            );
+
+        } else {
+
+            currentUser = null;
+
+            console.log(
+                "Admin is not logged in."
             );
 
         }
 
-    })
-    .catch((error) => {
-
-        console.error(
-            "Redirect Login Error:",
-            error
-        );
-
-        alert(
-            "❌ Google Login Failed!\n\n" +
-            "Error Code: " + error.code + "\n\n" +
-            "Error Message: " + error.message
-        );
-
-    });
-
-
-// ===============================
-// AUTH CHECK
-// ===============================
-
-onAuthStateChanged(auth, (user) => {
-
-    if (user && user.email === ADMIN_EMAIL) {
-
-        currentUser = user;
-
-        console.log(
-            "🛡 Admin:",
-            user.email
-        );
-
-    } else {
-
-        currentUser = null;
-
-        console.log(
-            "Admin is not logged in."
-        );
-
     }
-
-});
+);
 
 
 // ===============================
@@ -165,7 +169,11 @@ if (publishBtn) {
         "click",
         async () => {
 
-            // Check login
+
+            // ===============================
+            // CHECK ADMIN LOGIN
+            // ===============================
+
             if (!currentUser) {
 
                 alert(
@@ -181,23 +189,39 @@ if (publishBtn) {
             // ===============================
 
             const titleInput =
-                document.getElementById("comicTitle");
+                document.getElementById(
+                    "comicTitle"
+                );
 
             const categorySelect =
-                document.getElementById("categorySelect");
+                document.getElementById(
+                    "categorySelect"
+                );
 
             const coverUrlInput =
-                document.getElementById("coverUrl");
+                document.getElementById(
+                    "coverUrl"
+                );
 
             const comicUrlInput =
-                document.getElementById("comicUrl");
+                document.getElementById(
+                    "comicUrl"
+                );
 
             const comicTypeSelect =
-                document.getElementById("comicType");
+                document.getElementById(
+                    "comicType"
+                );
 
             const descriptionInput =
-                document.getElementById("descriptionInput");
+                document.getElementById(
+                    "descriptionInput"
+                );
 
+
+            // ===============================
+            // GET VALUES
+            // ===============================
 
             const title =
                 titleInput
@@ -243,6 +267,7 @@ if (publishBtn) {
                 return;
             }
 
+
             if (coverUrl === "") {
 
                 alert(
@@ -251,6 +276,7 @@ if (publishBtn) {
 
                 return;
             }
+
 
             if (comicUrl === "") {
 
@@ -263,7 +289,7 @@ if (publishBtn) {
 
 
             // ===============================
-            // SAVE TO FIRESTORE
+            // PUBLISH
             // ===============================
 
             try {
@@ -276,22 +302,32 @@ if (publishBtn) {
 
                 const docRef =
                     await addDoc(
-                        collection(db, "comics"),
+                        collection(
+                            db,
+                            "comics"
+                        ),
                         {
 
-                            title: title,
+                            title:
+                                title,
 
-                            category: category,
+                            category:
+                                category,
 
-                            coverUrl: coverUrl,
+                            coverUrl:
+                                coverUrl,
 
-                            comicUrl: comicUrl,
+                            comicUrl:
+                                comicUrl,
 
-                            type: comicType,
+                            type:
+                                comicType,
 
-                            description: description,
+                            description:
+                                description,
 
-                            published: true,
+                            published:
+                                true,
 
                             createdAt:
                                 serverTimestamp(),
@@ -304,19 +340,28 @@ if (publishBtn) {
 
 
                 console.log(
-                    "Comic published:",
+                    "Comic Published:",
                     docRef.id
                 );
 
 
+                // ===============================
+                // SUCCESS MESSAGE
+                // ===============================
+
                 alert(
                     "✅ Comic Published Successfully!\n\n" +
-                    "Title: " + title + "\n" +
-                    "Type: " + comicType
+                    "Title: " +
+                    title +
+                    "\n\n" +
+                    "Type: " +
+                    comicType
                 );
 
 
-                // Clear form
+                // ===============================
+                // CLEAR FORM
+                // ===============================
 
                 if (titleInput) {
 
@@ -324,17 +369,20 @@ if (publishBtn) {
 
                 }
 
+
                 if (coverUrlInput) {
 
                     coverUrlInput.value = "";
 
                 }
 
+
                 if (comicUrlInput) {
 
                     comicUrlInput.value = "";
 
                 }
+
 
                 if (descriptionInput) {
 
@@ -350,10 +398,12 @@ if (publishBtn) {
                     error
                 );
 
+
                 alert(
                     "❌ Comic publish नहीं हुआ।\n\n" +
                     error.message
                 );
+
 
             } finally {
 
@@ -367,4 +417,4 @@ if (publishBtn) {
         }
     );
 
-}
+                }
