@@ -1,296 +1,172 @@
-// KushComics v2
+// ===============================
+// KushComics - Firebase Comics
+// ===============================
 
-document.addEventListener("DOMContentLoaded",()=>{
+import { collection, getDocs, query, where }
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-console.log("KushComics Loaded");
+import { db }
+from "./firebase.js";
 
-const buttons=document.querySelectorAll("button");
+document.addEventListener("DOMContentLoaded", () => {
 
-buttons.forEach(btn=>{
+    console.log("🚀 KushComics Loaded");
 
-btn.addEventListener("click",()=>{
+    loadComics();
 
-btn.style.transform="scale(.95)";
+    // Search
+    const searchInput = document.querySelector(".search input");
 
-setTimeout(()=>{
+    if (searchInput) {
+        searchInput.addEventListener("keyup", () => {
 
-btn.style.transform="scale(1)";
+            const value = searchInput.value.toLowerCase();
 
-},150);
+            document.querySelectorAll(".comic-card").forEach(card => {
 
-});
+                const title =
+                    card.querySelector("h3")?.innerText.toLowerCase() || "";
 
-});
+                card.style.display =
+                    title.includes(value) ? "" : "none";
 
-});// Smooth Scroll for Navigation
-
-document.querySelectorAll('a[href^="#"]').forEach(link=>{
-
-link.addEventListener("click",function(e){
-
-e.preventDefault();
-
-const target=document.querySelector(this.getAttribute("href"));
-
-if(target){
-
-target.scrollIntoView({
-
-behavior:"smooth"
+            });
+        });
+    }
 
 });
+
+
+// ===============================
+// LOAD COMICS FROM FIRESTORE
+// ===============================
+
+async function loadComics() {
+
+    try {
+
+        const comicsRef = collection(db, "comics");
+
+        const q = query(
+            comicsRef,
+            where("published", "==", true)
+        );
+
+        const snapshot = await getDocs(q);
+
+        console.log("Firebase comics:", snapshot.size);
+
+        const grids = document.querySelectorAll(".comic-grid");
+
+        if (!grids.length) {
+            console.error("Comic grid not found.");
+            return;
+        }
+
+        // Existing demo comics हटाओ
+        grids.forEach(grid => {
+            grid.innerHTML = "";
+        });
+
+        if (snapshot.empty) {
+
+            grids[0].innerHTML = `
+                <p style="text-align:center;">
+                    अभी कोई comic उपलब्ध नहीं है।
+                </p>
+            `;
+
+            return;
+        }
+
+        snapshot.forEach(doc => {
+
+            const comic = doc.data();
+
+            const card = createComicCard(comic);
+
+            // Latest और Trending दोनों में दिखाएँ
+            grids.forEach(grid => {
+                grid.appendChild(card.cloneNode(true));
+            });
+
+        });
+
+        addReadButtons();
+
+    } catch (error) {
+
+        console.error("Firebase Error:", error);
+
+    }
 
 }
 
-});
 
-});// Read Buttons
+// ===============================
+// CREATE COMIC CARD
+// ===============================
 
-const readButtons=document.querySelectorAll(".comic-info button");
+function createComicCard(comic) {
 
-readButtons.forEach(button=>{
+    const card = document.createElement("div");
 
-button.addEventListener("click",()=>{
+    card.className = "comic-card";
 
-alert("📖 Comic Reader will be available soon!");
+    const title = comic.title || "Untitled Comic";
+    const category = comic.category || "Comic";
+    const cover = comic.coverUrl || "https://picsum.photos/300/420";
+    const type = comic.type || "Free";
 
-});
+    card.innerHTML = `
+        <img
+            src="${cover}"
+            alt="${title} Comic Cover"
+            onerror="this.src='https://picsum.photos/300/420'"
+        >
 
-});
+        <div class="comic-info">
 
+            <h3>${title}</h3>
 
-// Hero Buttons
+            <p>${category} • ${type}</p>
 
-const heroButtons=document.querySelectorAll(".hero button");
+            <button type="button"
+                    class="read-comic-btn">
+                ${type === "Premium" ? "Read Premium" : "Read Now"}
+            </button>
 
-heroButtons.forEach(button=>{
+        </div>
+    `;
 
-button.addEventListener("click",()=>{
+    card.dataset.comicUrl = comic.comicUrl || "";
 
-window.scrollTo({
-
-top:700,
-
-behavior:"smooth"
-
-});
-
-});
-
-});// Premium Button
-
-const premiumBtn=document.querySelector(".premium-btn");
-
-if(premiumBtn){
-
-premiumBtn.addEventListener("click",()=>{
-
-alert("💎 Premium Comics feature is coming soon!");
-
-});
-
+    return card;
 }
 
-// Newsletter
 
-const subscribeBtn=document.querySelector(".newsletter-box button");
+// ===============================
+// READ BUTTON
+// ===============================
 
-if(subscribeBtn){
+function addReadButtons() {
 
-subscribeBtn.addEventListener("click",()=>{
+    document.querySelectorAll(".read-comic-btn").forEach(button => {
 
-const email=document.querySelector(".newsletter-box input");
+        button.addEventListener("click", () => {
 
-if(email.value.trim()===""){
+            const card = button.closest(".comic-card");
 
-alert("Please enter your email.");
+            const url = card?.dataset.comicUrl;
 
-}else{
+            if (url) {
+                window.open(url, "_blank");
+            } else {
+                alert("Comic file उपलब्ध नहीं है।");
+            }
 
-alert("✅ Thanks for subscribing!");
+        });
 
-email.value="";
-
-}
-
-});
-
-}// Social Links
-
-const socialLinks=document.querySelectorAll(".social-links a");
-
-socialLinks.forEach(link=>{
-
-link.addEventListener("click",(e)=>{
-
-e.preventDefault();
-
-alert("🚀 Social links will be added soon!");
-
-});
-
-});
-
-
-// Category Cards
-
-const categories=document.querySelectorAll(".category-card");
-
-categories.forEach(card=>{
-
-card.addEventListener("click",()=>{
-
-const name=card.querySelector("h3").innerText;
-
-alert("📚 Opening "+name+" Comics");
-
-});
-
-});// Search Feature
-
-const searchInput=document.querySelector(".search input");
-
-if(searchInput){
-
-searchInput.addEventListener("keyup",()=>{
-
-const value=searchInput.value.toLowerCase();
-
-const comics=document.querySelectorAll(".comic-card");
-
-comics.forEach(card=>{
-
-const title=card.querySelector("h3").innerText.toLowerCase();
-
-if(title.includes(value)){
-
-card.style.display="block";
-
-}else{
-
-card.style.display="none";
+    });
 
 }
-
-});
-
-});
-
-}// Welcome Message
-
-setTimeout(()=>{
-
-console.log("Welcome to KushComics 🚀");
-
-},1000);
-
-
-// Comic Card Animation
-
-const comicCards=document.querySelectorAll(".comic-card");
-
-const observer=new IntersectionObserver((entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.style.opacity="1";
-
-entry.target.style.transform="translateY(0)";
-
-}
-
-});
-
-});
-
-comicCards.forEach(card=>{
-
-card.style.opacity="0";
-
-card.style.transform="translateY(40px)";
-
-card.style.transition="0.6s";
-
-observer.observe(card);
-
-});// Navbar Active Effect
-
-const navLinks=document.querySelectorAll(".nav-links a");
-
-navLinks.forEach(link=>{
-
-link.addEventListener("click",()=>{
-
-navLinks.forEach(item=>item.classList.remove("active"));
-
-link.classList.add("active");
-
-});
-
-});
-
-
-// Loading Animation
-
-window.addEventListener("load",()=>{
-
-document.body.style.opacity="1";
-
-});
-
-document.body.style.opacity="0";
-
-document.body.style.transition="opacity .6s ease";// Premium Hover Effects
-
-document.querySelectorAll(".comic-card").forEach(card=>{
-
-card.addEventListener("mouseenter",()=>{
-
-card.style.transform="translateY(-10px) scale(1.02)";
-
-});
-
-card.addEventListener("mouseleave",()=>{
-
-card.style.transform="translateY(0) scale(1)";
-
-});
-
-});
-
-
-// Footer Year
-
-const year=document.querySelector(".footer p");
-
-if(year){
-
-year.innerHTML="© 2026 KushComics • All Rights Reserved";
-
-}// KushComics Final Setup
-
-window.addEventListener("load",()=>{
-
-console.log("🚀 KushComics Ready");
-
-});
-
-document.querySelectorAll("button").forEach(btn=>{
-
-btn.addEventListener("click",()=>{
-
-navigator.vibrate?.(30);
-
-});
-
-});
-
-// Future Features Placeholder
-const app={
-version:"1.0",
-name:"KushComics"
-};
-
-console.log(app);
